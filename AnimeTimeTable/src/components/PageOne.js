@@ -1,28 +1,40 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+import ScrollableTabView, { ScrollableTabBar, } from 'react-native-scrollable-tab-view';
 
 import PageTwo from './PageTwo';
+import CustomTabBar from './CustomTabBar';
+
+const styles = StyleSheet.create({
+  container: {
+
+  },
+});
 
 export default class PageOne extends Component {
-  render() {
-    return (
-      <ScrollableTabView>
-          <Text>Hello 1</Text>
-          <Text>Hello 2</Text>
-          <Text>Hello 3</Text>
-      </ScrollableTabView>
-    )
-  }
+    render() {
+        return (
+            <ScrollableTabView renderTabBar={() => <CustomTabBar />}>
+                <PageTwo tabLabel="asdfsf"/>
+                <PageTwo tabLabel="aa"/>
+                <PageTwo tabLabel="bb"/>
+                <PageTwo tabLabel="cc"/>
+            </ScrollableTabView>
+        )
+    }
 }
 
-// <ScrollableTabView
-//   renderTabBar={() => <DefaultTabBar />}
-//   ref={(tabView) => { this.tabView = tabView; }}
-// >
-//     <Text tabLabel='Tab #1'>My</Text>
-//     <Text tabLabel='Tab #2'>favorite</Text>
-//     <Text tabLabel='Tab #3'>project</Text>
-// </ScrollableTabView>
+/*
+<ScrollableTabView style={styles.container}>
+    <Text tabLabel="월"></Text>
+    <Text tabLabel="화"></Text>
+    <Text tabLabel="수"></Text>
+    <Text tabLabel="목"></Text>
+    <Text tabLabel="금"></Text>
+    <Text tabLabel="토"></Text>
+    <Text tabLabel="일"></Text>
+    <Text onPress={Actions.pageOne} tabLabel="test">aaa</Text>
+</ScrollableTabView>
+*/

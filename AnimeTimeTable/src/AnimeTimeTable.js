@@ -81,11 +81,13 @@ export default class App extends Component {
                 <Scene key="root">
                     <Scene key="launch" component={Launch} title="Launch" initial={true} style={{flex:1, backgroundColor:'transparent'}}/>
 
-                    <Scene key="pageOne" component={PageOne} title="PageOne">
-                        <Scene key="pageTwo" component={PageTwo} title="PageTwo" />                        
+                    <Scene key="pageOne" component={PageOne}>
+                        <Scene key="pageTwo" component={PageTwo} title="PageTwo">
+
+
+
+                        </Scene>
                     </Scene>
-
-
 
                     <Scene key="tabbar" component={NavigationDrawer}>
                         <Scene
@@ -93,7 +95,7 @@ export default class App extends Component {
                             tabs
                             tabBarStyle={styles.tabBarStyle}
                             tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}
-                        >
+                            >
                             <Scene key="tab1" component={TabView} title="월" icon={TabIcon} />
                             <Scene key="tab2" component={TabView} title="화" icon={TabIcon} />
                             <Scene key="tab3" component={TabView} title="수" icon={TabIcon} />

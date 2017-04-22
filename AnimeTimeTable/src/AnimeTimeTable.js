@@ -16,22 +16,17 @@ import {
   ActionConst,
 } from 'react-native-router-flux';
 
+import MainPage from './components/MainPage';
 
-import PageOne from './components/PageOne';
-import PageTwo from './components/PageTwo';
+import DailyAnime from './components/DailyAnime';
+import SampleInfo from './components/SampleInfo';
+import Bookmark from './components/Bookmark';
 
-import Launch from './components/Launch'
-import TabView from './components/TabView';
-import NavigationDrawer from './components/NavigationDrawer';
+import AnimeInfoPage from './components/AnimeInfoPage';
+import DetailInfo from './components/DetailInfo';
+import Subtitle from './components/Subtitle';
 
-
-class TabIcon extends React.Component {
-    render(){
-        return (
-            <Text style={{color: this.props.selected ? 'red' :'black'}}>{this.props.title}</Text>
-        );
-    }
-}
+import BookmarkPage from './components/BookmarkPage';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -39,18 +34,6 @@ const reducerCreate = params => {
     return defaultReducer(state, action);
   };
 };
-
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: 'transparent', justifyContent: 'center',
-    alignItems: 'center',
-  },
-  tabBarStyle: {
-    backgroundColor: 'lightblue',
-  },
-  tabBarSelectedItemStyle: {
-    backgroundColor: '#ddd',
-  },
-});
 
 /*
 router-flux 에서는 App 에 reducer 를 작성함
@@ -79,38 +62,21 @@ export default class App extends Component {
         return (
             <Router createReducer={reducerCreate} sceneStyle={{backgroundColor:'#F7F7F7'}}>
                 <Scene key="root">
-                    <Scene key="launch" component={Launch} title="Launch" initial={true} style={{flex:1, backgroundColor:'transparent'}}/>
 
-                    <Scene key="pageOne" component={PageOne}>
-                        <Scene key="pageTwo" component={PageTwo} title="PageTwo">
-
-
-
+                    <Scene key="main" component={MainPage} title="메인" initial={true}>
+                        <Scene key="dailyAnime" component={DailyAnime}>
+                            <Scene key="sampleInfo" component={SampleInfo} />
+                            <Scene key="bookmark" component={Bookmark} />
                         </Scene>
                     </Scene>
 
-                    <Scene key="tabbar" component={NavigationDrawer}>
-                        <Scene
-                            key="main"
-                            tabs
-                            tabBarStyle={styles.tabBarStyle}
-                            tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}
-                            >
-                            <Scene key="tab1" component={TabView} title="월" icon={TabIcon} />
-                            <Scene key="tab2" component={TabView} title="화" icon={TabIcon} />
-                            <Scene key="tab3" component={TabView} title="수" icon={TabIcon} />
-                            <Scene key="tab4" component={TabView} title="목" icon={TabIcon} />
-                            <Scene key="tab5" component={TabView} title="금" icon={TabIcon} />
-                            <Scene key="tab6" component={TabView} title="토" icon={TabIcon} />
-                            <Scene key="tab7" component={TabView} title="일" icon={TabIcon} />
-                        </Scene>
+                    <Scene key="bookmarkPage" component={BookmarkPage} title="즐겨찾기" />
+
+                    <Scene key="animeInfoPage" component={AnimeInfoPage} title="애니정보">
+                        <Scene key="detailInfo" component={DetailInfo} />
+                        <Scene key="subtitle" component={Subtitle} />
                     </Scene>
 
-                    <Scene key="myTabBar" tabs={true} hideNavBar tabBarStyle={styles.tabBarStyle}>
-                        <Scene key="tab11" component={TabView} title="월" icon={TabIcon} />
-                        <Scene key="tab22" component={TabView} title="화" icon={TabIcon} />
-                        <Scene key="tab33" component={TabView} title="수" icon={TabIcon} />
-                    </Scene>
                 </Scene>
             </Router>
         )
@@ -130,45 +96,35 @@ export default class App extends Component {
 
 
 
-
-// <Scene
-//   key="tab1"
-//   title="Tab #1"
-//   initial
-//   icon={TabIcon}
-// >
-//   <Scene
-//     key="tab1_1"
-//     component={TabView}
-//     title="Tab #1_1"
-//     onRight={() => alert('Right button')}
-//     rightTitle="Right"
-//   />
-//   <Scene
-//     key="tab1_2"
-//     component={TabView}
-//     title="Tab #1_2"
-//     titleStyle={{ color: 'black' }}
-//   />
+// <Scene key="launch" component={Launch} title="Launch" initial={true} style={{flex:1, backgroundColor:'transparent'}}/>
+//
+// <Scene key="pageOne" component={PageOne}>
+//     <Scene key="pageTwo" component={PageTwo} title="PageTwo">
+//
+//
+//
+//     </Scene>
 // </Scene>
-// <Scene key="tab2" title="Tab #2" icon={TabIcon}>
+//
+// <Scene key="tabbar" component={NavigationDrawer}>
 //     <Scene
-//     key="tab2_1"
-//     component={TabView}
-//     title="Tab #2_1"
-//     renderRightButton={() => <Text>Right</Text>}
-//     />
-//     <Scene
-//     key="tab2_2"
-//     component={TabView}
-//     title="Tab #2_2"
-//     hideBackImage
-//     onBack={() => alert('Left button!')}
-//     backTitle="Left"
-//     duration={1}
-//     panHandlers={null}
-//     />
+//         key="main"
+//         tabs
+//         tabBarStyle={styles.tabBarStyle}
+//         tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}
+//         >
+//         <Scene key="tab1" component={TabView} title="월" icon={TabIcon} />
+//         <Scene key="tab2" component={TabView} title="화" icon={TabIcon} />
+//         <Scene key="tab3" component={TabView} title="수" icon={TabIcon} />
+//         <Scene key="tab4" component={TabView} title="목" icon={TabIcon} />
+//         <Scene key="tab5" component={TabView} title="금" icon={TabIcon} />
+//         <Scene key="tab6" component={TabView} title="토" icon={TabIcon} />
+//         <Scene key="tab7" component={TabView} title="일" icon={TabIcon} />
+//     </Scene>
 // </Scene>
-// <Scene key="tab3" component={TabView} title="Tab #3" icon={TabIcon} />
-// <Scene key="tab4" component={TabView} title="Tab #4" icon={TabIcon} />
-// <Scene key="tab5" component={TabView} title="Tab #5" icon={TabIcon} />
+//
+// <Scene key="myTabBar" tabs={true} hideNavBar tabBarStyle={styles.tabBarStyle}>
+//     <Scene key="tab11" component={TabView} title="월" icon={TabIcon} />
+//     <Scene key="tab22" component={TabView} title="화" icon={TabIcon} />
+//     <Scene key="tab33" component={TabView} title="수" icon={TabIcon} />
+// </Scene>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, TouchableNativeFeedback } from 'react-native';
 
 
-const Button = (props) => {
+const CustomButton = (props) => {
   return <TouchableNativeFeedback
     delayPressIn={0}
     background={TouchableNativeFeedback.SelectableBackground()} // eslint-disable-line new-cap
@@ -12,4 +12,4 @@ const Button = (props) => {
   </TouchableNativeFeedback>;
 };
 
-module.exports = Button;
+module.exports = CustomButton;

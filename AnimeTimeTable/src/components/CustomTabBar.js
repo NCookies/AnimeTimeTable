@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
 
-import Button from './Button';
+import CustomButton from './CustomButton';
 
 const CustomTabBar = React.createClass({
   propTypes: {
@@ -23,7 +23,7 @@ const CustomTabBar = React.createClass({
       inactiveTextColor: 'black',
       backgroundColor: null,
     };
-  },
+},
 
   renderTabOption(name, page) {
   },
@@ -33,7 +33,7 @@ const CustomTabBar = React.createClass({
     const textColor = isTabActive ? activeTextColor : inactiveTextColor;
     const fontWeight = isTabActive ? 'bold' : 'normal';
 
-    return <Button
+    return <CustomButton
       style={styles.flexOne}
       key={name}
       accessible={true}
@@ -46,7 +46,7 @@ const CustomTabBar = React.createClass({
           {name}
         </Text>
       </View>
-    </Button>;
+    </CustomButton>;
   },
 
   render() {

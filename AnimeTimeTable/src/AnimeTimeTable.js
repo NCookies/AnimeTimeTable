@@ -16,6 +16,7 @@ import {
   ActionConst,
 } from 'react-native-router-flux';
 
+
 import PageOne from './components/PageOne';
 import PageTwo from './components/PageTwo';
 
@@ -80,8 +81,10 @@ export default class App extends Component {
                 <Scene key="root">
                     <Scene key="launch" component={Launch} title="Launch" initial={true} style={{flex:1, backgroundColor:'transparent'}}/>
 
-                    <Scene key="pageOne" component={PageOne} title="PageOne" />
-                    <Scene key="pageTwo" component={PageTwo} title="PageTwo" />
+                    <Scene key="pageOne" component={PageOne} title="PageOne">
+                        <Scene key="pageTwo" component={PageTwo} title="PageTwo" />                        
+                    </Scene>
+
 
 
                     <Scene key="tabbar" component={NavigationDrawer}>
@@ -99,6 +102,12 @@ export default class App extends Component {
                             <Scene key="tab6" component={TabView} title="토" icon={TabIcon} />
                             <Scene key="tab7" component={TabView} title="일" icon={TabIcon} />
                         </Scene>
+                    </Scene>
+
+                    <Scene key="myTabBar" tabs={true} hideNavBar tabBarStyle={styles.tabBarStyle}>
+                        <Scene key="tab11" component={TabView} title="월" icon={TabIcon} />
+                        <Scene key="tab22" component={TabView} title="화" icon={TabIcon} />
+                        <Scene key="tab33" component={TabView} title="수" icon={TabIcon} />
                     </Scene>
                 </Scene>
             </Router>

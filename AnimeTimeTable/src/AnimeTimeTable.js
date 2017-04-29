@@ -64,18 +64,12 @@ export default class App extends Component {
                 <Scene key="root">
 
                     <Scene key="main" component={MainPage} title="메인" initial={true}>
-                        <Scene key="dailyAnime" component={DailyAnime}>
-                            <Scene key="sampleInfo" component={SampleInfo} />
-                            <Scene key="bookmark" component={Bookmark} />
-                        </Scene>
+                        <Scene key="dailyAnime" component={DailyAnime} />
                     </Scene>
 
                     <Scene key="bookmarkPage" component={BookmarkPage} title="즐겨찾기" />
 
-                    <Scene key="animeInfoPage" component={AnimeInfoPage} title="애니정보">
-                        <Scene key="detailInfo" component={DetailInfo} />
-                        <Scene key="subtitle" component={Subtitle} />
-                    </Scene>
+                    <Scene key="animeInfoPage" component={AnimeInfoPage} title="애니정보" />
 
                 </Scene>
             </Router>

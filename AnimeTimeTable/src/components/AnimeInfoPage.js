@@ -9,6 +9,8 @@ export default class AnimeInfoPage extends Component {
     render() {
         return (
             <View style={{margin: 128}}>
+                <DetailInfo />
+                <Subtitle />
             </View>
         )
     }

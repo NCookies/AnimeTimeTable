@@ -6,7 +6,7 @@ export default class Bookmark extends Component {
     render() {
         return (
             <View>
-                <Text>별별</Text>
+                <Text>북마크</Text>
             </View>
         )
     }

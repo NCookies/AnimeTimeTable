@@ -1,32 +1,30 @@
 import React, { Component } from 'react';
-import { View, Text, ToastAndroid } from 'react-native';
+import { View, Text, AsyncStorage } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import SampleInfo from './SampleInfo';
 import Bookmark from './Bookmark'
 
 
-
 export default class DailyAnime extends Component {
 
     async getMoviesFromApi() {
+        let animeData;
+
         try {
             let response = await fetch('http://www.anissia.net/anitime/list?w=0');
+            let animeData = await response.json();
 
-
-
+            return animeData;
         } catch(error) {
             console.error(error);
         }
     }
 
-    componentDidMount() {
-        // this.getMoviesFromApi()
-        // .then((data) => { ToastAndroid.show(JSON.stringify(data), ToastAndroid.SHORT) })
+    async componentDidMount() {
+        var animeData = await this.getMoviesFromApi();
+        console.log(animeData);
 
-        let data = this.getMoviesFromApi();
-        // ToastAndroid.show(JSON.stringify(data), ToastAndroid.SHORT);
-        console.log(data);
     }
 
     render() {

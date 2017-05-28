@@ -5,11 +5,29 @@ import { Actions } from 'react-native-router-flux';
 import Button from 'react-native-button';
 
 export default class SampleInfo extends Component {
+
+    constructor(props) {
+        super(props);
+
+    }
+
     render() {
+        // let info = JSON.parse(this.props.info);
+        // let list = info.map((data, index) => {
+        //     return (
+        //         <Button onPress={Actions.animeInfoPage}>
+        //             <Text>{data["s"]}</Text>
+        //             <Text>{data["g"]}</Text>
+        //         </Button>
+        //     )
+        // })
+        // console.log(this.props.info[0]);
+
         return (
             <View>
-                <Button onPress={Actions.animeInfoPage}>상세정보</Button>
-                <Button onPress={Actions.bookmarkPage}>즐겨찾기</Button>
+                <Text>{this.props.info}</Text>
+
+                <Button onPress={Actions.bookmarkPage}>d</Button>
             </View>
         )
     }

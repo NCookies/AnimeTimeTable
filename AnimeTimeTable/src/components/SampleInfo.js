@@ -12,22 +12,15 @@ export default class SampleInfo extends Component {
     }
 
     render() {
-        // let info = JSON.parse(this.props.info);
-        // let list = info.map((data, index) => {
-        //     return (
-        //         <Button onPress={Actions.animeInfoPage}>
-        //             <Text>{data["s"]}</Text>
-        //             <Text>{data["g"]}</Text>
-        //         </Button>
-        //     )
-        // })
-        // console.log(this.props.info[0]);
+        let info = this.props.info
+        let time = info["t"].slice(0, 2) + "시 " + info["t"].slice(2, 4) + "분"
 
         return (
             <View>
-                <Text>{this.props.info}</Text>
+                <Text>{ info["s"] }</Text>
+                <Text>{ time + " | " + info["g"] }</Text>
 
-                <Button onPress={Actions.bookmarkPage}>d</Button>
+                <Button onPress={Actions.bookmarkPage}>북마크</Button>
             </View>
         )
     }

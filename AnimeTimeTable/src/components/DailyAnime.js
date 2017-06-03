@@ -4,8 +4,8 @@ import
     Text,
     AsyncStorage,
     NetInfo,
-    ListView }
-    from 'react-native';
+    ListView
+} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import SampleInfo from './SampleInfo';
@@ -17,46 +17,99 @@ export default class DailyAnime extends Component {
     constructor(props) {
         super(props);
 
-        let source = [];
-
-        console.log(this.props.daily)
-
-        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        const ds =
         this.state = {
-            dataSource: ds.cloneWithRows(this.genRows(this.props.daily)),
+            dataSource: new ListView.DataSource({
+                rowHasChanged: (r1, r2) => r1 !== r2
+            }),
+            isFetching: false
         };
+    }
+
+
+    async componentDidMount() {
+
+        // 네트워크에 연결되어 있다면 서버로부터 데이터를 새로 받아와 갱신함
+        if (await this.checkNetworkConnecting()) {
+            await this.getAnimeFromApi();
+        } else {    // 연결되어 있지 않다면 기존의 DB 데이터를 사용함
+
+        }
+    }
+
+    render() {
+        const loading = (
+            <View>
+                <Text>
+                    Loading...
+                </Text>
+            </View>
+        )
+
+        const listView = (
+            <View>
+                <ListView
+                    dataSource={this.state.dataSource}
+                    renderRow={(rowData) => <SampleInfo info={rowData}/>}
+                />
+            </View>
+        )
+
+        return (
+            <View style>
+                { this.state.isFetching ? loading : listView }
+            </View>
+        )
     }
 
     genRows(daily) {
         let dataBlob = [];
         let jsonData
 
-        try {
-            jsonData = JSON.parse(daily);
-        } catch(err) {
-            console.log(err);
-            return;
-        }
-
         for (let i = 0; i < jsonData.length; i++) {
             dataBlob.push('Row ' + i + jsonData[i]["s"]);
         }
 
-        console.log(dataBlob)
         return dataBlob;
     }
-    render() {
-        console.log(this.props.daily[0])
 
-        return (
-            <View style={{margin: 128}}>
-                <ListView
-                    dataSource={this.state.dataSource}
-                    renderRow={(rowData) => <SampleInfo info={rowData}/>}
-                />
+    async getAnimeFromDB() {
+        try {
+            const animeData = await AsyncStorage.getItem('@'
+            + dayOfWeek[weekday]
+            + 'Anime:key');
 
-                <Text>{JSON.stringify(this.props.daily)}</Text>
-            </View>
-        )
+            if (animeData !== null) {
+                return animeData
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    getAnimeFromApi() {
+        let animeData;
+
+        const dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',
+        'Thursday', 'Friday', 'Saturday']
+
+        this.setState({
+            isFetching: true
+        })
+
+        fetch('http://www.anissia.net/anitime/list?w=' + this.props.dayOfWeek)
+        .then((res) => res.json())
+        .then((json) => {
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(json),
+                isFetching: false
+            })
+            AsyncStorage.setItem('@' + dayOfWeek[this.props.dayOfWeek] + 'Anime:key', json)
+            console.log(this.state.dataSource);
+        })
+    }
+
+    async checkNetworkConnecting() {
+        return await NetInfo.isConnected.fetch();
     }
 }

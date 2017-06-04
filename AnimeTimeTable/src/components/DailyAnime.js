@@ -26,15 +26,14 @@ export default class DailyAnime extends Component {
         };
     }
 
-
     async componentDidMount() {
 
         // 네트워크에 연결되어 있다면 서버로부터 데이터를 새로 받아와 갱신함
-        if (await this.checkNetworkConnecting()) {
+        // if (await this.checkNetworkConnecting()) {
             await this.getAnimeFromApi();
-        } else {    // 연결되어 있지 않다면 기존의 DB 데이터를 사용함
+        // } else {    // 연결되어 있지 않다면 기존의 DB 데이터를 사용함
 
-        }
+        // }
     }
 
     render() {
@@ -56,21 +55,10 @@ export default class DailyAnime extends Component {
         )
 
         return (
-            <View style>
+            <View>
                 { this.state.isFetching ? loading : listView }
             </View>
         )
-    }
-
-    genRows(daily) {
-        let dataBlob = [];
-        let jsonData
-
-        for (let i = 0; i < jsonData.length; i++) {
-            dataBlob.push('Row ' + i + jsonData[i]["s"]);
-        }
-
-        return dataBlob;
     }
 
     async getAnimeFromDB() {

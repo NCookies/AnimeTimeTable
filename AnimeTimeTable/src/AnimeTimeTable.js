@@ -1,20 +1,26 @@
 import React, { Component } from 'react';
-
 import {
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-
-import {
-  Scene,
-  Reducer,
-  Router,
-  Switch,
-  Modal,
-  Actions,
-  ActionConst,
+import
+{
+    Scene,
+    Router,
+    Reducer,
+    Switch,
+    Modal,
+    Actions
 } from 'react-native-router-flux';
+import { connect, Provider } from 'react-redux';
+import configureStore from './store/configureStore';
+
+const store = configureStore()
+
+const RouterWithRedux = connect()(Router);
+import reducers from './reducers';
+
 
 import MainPage from './components/MainPage';
 
@@ -28,12 +34,23 @@ import Subtitle from './components/Subtitle';
 
 import BookmarkPage from './components/BookmarkPage';
 
+
+// const store = compose(
+//     applyMiddleware()
+// )(createStore)(reducers);
+
 const reducerCreate = params => {
-  const defaultReducer = new Reducer(params);
-  return (state, action) => {
-    return defaultReducer(state, action);
-  };
+    const defaultReducer = new Reducer(params);
+    return (state, action) => {
+        return defaultReducer(state, action);
+    };
 };
+
+const TabIcon = ({ selected, title}) => {
+    return (
+      <Text style={{color: selected ? 'red' : 'black'}}>{title}</Text>
+    )
+}
 
 /*
 router-flux 에서는 App 에 reducer 를 작성함
@@ -60,65 +77,24 @@ hideTabBar, hideNavBar 속성을 이용하여 TaBar와 NavBar를 숨길 수 있�
 export default class App extends Component {
     render() {
         return (
-            <Router createReducer={reducerCreate} sceneStyle={{backgroundColor:'#F7F7F7'}}>
-                <Scene key="root">
+            <Provider store={store}>
+                <RouterWithRedux>
+                    <Scene key="root">
 
-                    <Scene key="main" component={MainPage} title="메인" initial={true}>
-                        <Scene key="dailyAnime" component={DailyAnime} />
+                        <Scene key="main" component={MainPage} title="메인" initial={true}>
+                            <Scene key="dailyAnime" component={DailyAnime} />
+                        </Scene>
+
+                        <Scene key="bookmarkPage" component={BookmarkPage} title="즐겨찾기" />
+
+                        <Scene key="animeInfoPage" component={AnimeInfoPage} title="애니정보" />
+
                     </Scene>
+                </RouterWithRedux>
+            </Provider>
 
-                    <Scene key="bookmarkPage" component={BookmarkPage} title="즐겨찾기" />
-
-                    <Scene key="animeInfoPage" component={AnimeInfoPage} title="애니정보" />
-
-                </Scene>
-            </Router>
         )
     }
 }
-
-// <Scene key="tabbar" tabs={true} >
-//     <Scene key="tab1"  title="Tab #1">
-//     </Scene>
-//     <Scene key="tab2" initial={true} title="Tab #2" >
-//     </Scene>
-//     <Scene key="tab3" component={TabView} title="Tab #3" hideTabBar={true} />
-//     <Scene key="tab4" component={TabView} title="Tab #4" hideNavBar={true} />
-//     <Scene key="tab5" component={TabView} title="Tab #5"  />
-// </Scene>
-
-
-
-
-// <Scene key="launch" component={Launch} title="Launch" initial={true} style={{flex:1, backgroundColor:'transparent'}}/>
-//
-// <Scene key="pageOne" component={PageOne}>
-//     <Scene key="pageTwo" component={PageTwo} title="PageTwo">
-//
-//
-//
-//     </Scene>
-// </Scene>
-//
-// <Scene key="tabbar" component={NavigationDrawer}>
-//     <Scene
-//         key="main"
-//         tabs
-//         tabBarStyle={styles.tabBarStyle}
-//         tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}
-//         >
-//         <Scene key="tab1" component={TabView} title="월" icon={TabIcon} />
-//         <Scene key="tab2" component={TabView} title="화" icon={TabIcon} />
-//         <Scene key="tab3" component={TabView} title="수" icon={TabIcon} />
-//         <Scene key="tab4" component={TabView} title="목" icon={TabIcon} />
-//         <Scene key="tab5" component={TabView} title="금" icon={TabIcon} />
-//         <Scene key="tab6" component={TabView} title="토" icon={TabIcon} />
-//         <Scene key="tab7" component={TabView} title="일" icon={TabIcon} />
-//     </Scene>
-// </Scene>
-//
-// <Scene key="myTabBar" tabs={true} hideNavBar tabBarStyle={styles.tabBarStyle}>
-//     <Scene key="tab11" component={TabView} title="월" icon={TabIcon} />
-//     <Scene key="tab22" component={TabView} title="화" icon={TabIcon} />
-//     <Scene key="tab33" component={TabView} title="수" icon={TabIcon} />
-// </Scene>
+// <Router createReducer={reducerCreate} sceneStyle={{backgroundColor:'#F7F7F7'}}>
+// </Router>

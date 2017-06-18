@@ -4,6 +4,8 @@ import
     View,
     Text
 } from 'react-native';
+
+import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
 import ScrollableTabView from 'react-native-scrollable-tab-view';
@@ -11,13 +13,23 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import CustomTabBar from './CustomTabBar';
 import DailyAnime from './DailyAnime';
 
-export default class MainPage extends Component {
+
+// this.props.routes.scene 을 통하여 props에 접근할 수 있음
+// react-native 에서는 모든 component에 connect를 해주는 듯
+// 다른 route 에 Actions.SCENE_KEY(PARAMS)로 접근할 수 있음
+class MainPage extends Component {
+
+    static propTypes = {
+        routes: PropTypes.object
+    };
 
     constructor(props) {
         super(props);
     }
 
     render() {
+        const {routes} = this.context;
+
         return (
             <ScrollableTabView>
                 <DailyAnime tabLabel="월" dayOfWeek={0}/>
@@ -31,3 +43,5 @@ export default class MainPage extends Component {
         )
     }
 }
+
+export default connect(({routes}) => ({routes}))(MainPage);

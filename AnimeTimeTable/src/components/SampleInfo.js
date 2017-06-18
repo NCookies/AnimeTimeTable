@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
     View,
     Text ,
-    StyleSheet
+    StyleSheet,
+    TouchableHighlight
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
@@ -23,13 +24,15 @@ export default class SampleInfo extends Component {
         return (
             <View style={styles.listContainer}>
 
-                <View style={styles.animeInfo}>
-                    <Text style={styles.title}>{ info["s"] }</Text>
-                    <Text style={styles.detail}>{ time + " | " + info["g"] }</Text>
-                </View>
+                <TouchableHighlight style={styles.animeInfo} onPress={Actions.animeInfoPage}>
+                    <View>
+                        <Text style={styles.title}>{ info["s"] }</Text>
+                        <Text style={styles.detail}>{ time + " | " + info["g"] }</Text>
+                    </View>
+                </TouchableHighlight>
 
                 <View style={styles.bookmark}>
-                    <Button onPress={Actions.bookmarkPage}>
+                    <Button>
                         <Icon size={25} name="star-outlined" />
                     </Button>
                 </View>
@@ -38,6 +41,8 @@ export default class SampleInfo extends Component {
         )
     }
 }
+
+//  onPress={Actions.bookmarkPage}
 
 const styles = StyleSheet.create({
     listContainer: {

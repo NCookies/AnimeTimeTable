@@ -14,13 +14,10 @@ import
     Actions
 } from 'react-native-router-flux';
 import { connect, Provider } from 'react-redux';
-import configureStore from './store/configureStore';
+import configureStore from './configureStore';
 
 const store = configureStore()
-
 const RouterWithRedux = connect()(Router);
-import reducers from './reducers';
-
 
 import MainPage from './components/MainPage';
 
@@ -34,23 +31,12 @@ import Subtitle from './components/Subtitle';
 
 import BookmarkPage from './components/BookmarkPage';
 
-
-// const store = compose(
-//     applyMiddleware()
-// )(createStore)(reducers);
-
 const reducerCreate = params => {
     const defaultReducer = new Reducer(params);
     return (state, action) => {
         return defaultReducer(state, action);
     };
 };
-
-const TabIcon = ({ selected, title}) => {
-    return (
-      <Text style={{color: selected ? 'red' : 'black'}}>{title}</Text>
-    )
-}
 
 /*
 router-flux 에서는 App 에 reducer 를 작성함
@@ -75,26 +61,26 @@ hideTabBar, hideNavBar 속성을 이용하여 TaBar와 NavBar를 숨길 수 있�
 나머지는 React.js 와 비슷한 듯함
 */
 export default class App extends Component {
+
     render() {
+        const Scenes = Actions.create(
+            <Scene key="root">
+
+                <Scene key="main" component={MainPage} title="메인" initial={true}>
+                    <Scene key="dailyAnime" component={DailyAnime} />
+                </Scene>
+
+                <Scene key="bookmarkPage" component={BookmarkPage} title="즐겨찾기" />
+
+                <Scene key="animeInfoPage" component={AnimeInfoPage} title="애니정보" />
+
+            </Scene>
+        )
+
         return (
             <Provider store={store}>
-                <RouterWithRedux>
-                    <Scene key="root">
-
-                        <Scene key="main" component={MainPage} title="메인" initial={true}>
-                            <Scene key="dailyAnime" component={DailyAnime} />
-                        </Scene>
-
-                        <Scene key="bookmarkPage" component={BookmarkPage} title="즐겨찾기" />
-
-                        <Scene key="animeInfoPage" component={AnimeInfoPage} title="애니정보" />
-
-                    </Scene>
-                </RouterWithRedux>
+                <RouterWithRedux scenes={Scenes} />
             </Provider>
-
         )
     }
 }
-// <Router createReducer={reducerCreate} sceneStyle={{backgroundColor:'#F7F7F7'}}>
-// </Router>

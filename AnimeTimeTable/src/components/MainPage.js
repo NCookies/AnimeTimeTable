@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import
 {
     View,
@@ -31,15 +31,17 @@ class MainPage extends Component {
         const {routes} = this.context;
 
         return (
-            <ScrollableTabView>
-                <DailyAnime tabLabel="월" dayOfWeek={0}/>
-                <DailyAnime tabLabel="화" dayOfWeek={1}/>
-                <DailyAnime tabLabel="수" dayOfWeek={2}/>
-                <DailyAnime tabLabel="목" dayOfWeek={3}/>
-                <DailyAnime tabLabel="금" dayOfWeek={4}/>
-                <DailyAnime tabLabel="토" dayOfWeek={5}/>
-                <DailyAnime tabLabel="일" dayOfWeek={6}/>
-            </ScrollableTabView>
+            <View>
+                <ScrollableTabView>
+                    <DailyAnime tabLabel="월" dayOfWeek={0}/>
+                    <DailyAnime tabLabel="화" dayOfWeek={1}/>
+                    <DailyAnime tabLabel="수" dayOfWeek={2}/>
+                    <DailyAnime tabLabel="목" dayOfWeek={3}/>
+                    <DailyAnime tabLabel="금" dayOfWeek={4}/>
+                    <DailyAnime tabLabel="토" dayOfWeek={5}/>
+                    <DailyAnime tabLabel="일" dayOfWeek={6}/>
+                </ScrollableTabView>
+            </View>
         )
     }
 }

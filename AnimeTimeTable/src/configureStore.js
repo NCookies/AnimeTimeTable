@@ -1,13 +1,13 @@
 
 import { createStore, applyMiddleware, compose } from 'redux';
-import reducers from '../reducers/index';
+import reducers from './reducers/index';
 
-import createLogger from 'redux-logger';
+import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk'
 
 const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__ })
 
-export default function configureStore () {
+export default function configureStore() {
     const enhancer = compose(
         applyMiddleware(
             thunkMiddleware,

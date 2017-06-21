@@ -22,17 +22,26 @@ class AnimeInfoPage extends Component {
     };
 
     render() {
-        const uri = 'http://' + this.props.routes.scene.l;
-        const time  = this.props.routes.scene.t.slice(0, 2) + "시 "
-                    + this.props.routes.scene.t.slice(2, 4) + "분"
+        let uri;
+        let time;
 
-        const startDate = this.props.routes.scene.sd.slice(0, 4) + "년 "
-                        + this.props.routes.scene.sd.slice(4, 6) + "월 "
-                        + this.props.routes.scene.sd.slice(6, 8) + "일";
+        let startDate;
+        let endDate;
 
-        const endDate   = this.props.routes.scene.ed.slice(0, 4) + "년 "
-                        + this.props.routes.scene.ed.slice(4, 6) + "월 "
-                        + this.props.routes.scene.ed.slice(6, 8) + "일";
+        if (this.props.routes.scene.sceneKey === "animeInfoPage") {
+            // FOUCS 액션이 실행되었을 때 체크
+            uri = 'http://' + this.props.routes.scene.l;
+            time  = this.props.routes.scene.t.slice(0, 2) + "시 "
+            + this.props.routes.scene.t.slice(2, 4) + "분"
+
+            startDate = this.props.routes.scene.sd.slice(0, 4) + "년 "
+            + this.props.routes.scene.sd.slice(4, 6) + "월 "
+            + this.props.routes.scene.sd.slice(6, 8) + "일";
+
+            endDate   = this.props.routes.scene.ed.slice(0, 4) + "년 "
+            + this.props.routes.scene.ed.slice(4, 6) + "월 "
+            + this.props.routes.scene.ed.slice(6, 8) + "일";
+        }
 
         return (
             <ScrollView style={styles.container}>

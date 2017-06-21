@@ -30,7 +30,7 @@ class MainPage extends Component {
         const {routes} = this.context;
 
         return (
-            <ScrollableTabView>
+            <ScrollableTabView style={{backgroundColor: '#ECF0F1'}}>
                 <DailyAnime tabLabel="월" dayOfWeek={0}/>
                 <DailyAnime tabLabel="화" dayOfWeek={1}/>
                 <DailyAnime tabLabel="수" dayOfWeek={2}/>

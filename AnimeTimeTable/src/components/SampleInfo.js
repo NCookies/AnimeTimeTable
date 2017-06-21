@@ -21,6 +21,7 @@ class SampleInfo extends Component {
     render() {
         let info = this.props.info
         let time = info["t"].slice(0, 2) + "시 " + info["t"].slice(2, 4) + "분"
+        let cancled = info["a"] ? '' : '[결방]';
 
         return (
             <View style={styles.listContainer}>
@@ -30,7 +31,7 @@ class SampleInfo extends Component {
                     onPress={() => Actions.animeInfoPage(this.props.info)}>
 
                     <View>
-                        <Text style={styles.title}>{ info["s"] }</Text>
+                        <Text style={styles.title}>{ cancled + info["s"] }</Text>
                         <Text style={styles.detail}>{ time + " | " + info["g"] }</Text>
                     </View>
                 </TouchableHighlight>
@@ -53,7 +54,10 @@ class SampleInfo extends Component {
 const styles = StyleSheet.create({
     listContainer: {
         flexDirection: 'row',
-        padding: 10
+        padding: 10,
+        borderStyle: 'solid',
+        borderWidth: 0.5,
+        borderColor: '#BDC3C7'
     },
 
     animeInfo: {

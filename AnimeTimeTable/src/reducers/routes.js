@@ -1,8 +1,7 @@
 import { ActionConst } from 'react-native-router-flux';
 
 const initialState = {
-    scene: {},
-    hello: 'world'
+    scene: {}
 };
 
 export default function reducer(state = initialState, action = {}) {

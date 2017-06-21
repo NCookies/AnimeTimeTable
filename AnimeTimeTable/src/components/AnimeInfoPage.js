@@ -1,9 +1,14 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text } from 'react-native';
+import {
+    View,
+    Text,
+    TouchableHighlight,
+    WebView,
+    Linking
+} from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
-import DetailInfo from './DetailInfo';
 import Subtitle from './Subtitle';
 
 class AnimeInfoPage extends Component {
@@ -13,11 +18,13 @@ class AnimeInfoPage extends Component {
     };
 
     render() {
-        console.log(JSON.stringify(this.props.routes))
+        const uri = 'http://' + this.props.routes.scene.l
         return (
             <View style={{margin: 128}}>
-                <DetailInfo />
-                <Subtitle />
+                <TouchableHighlight
+                    onPress={() => Linking.openURL(uri)}>
+                    <Text>공식회사 사이트</Text>
+                </TouchableHighlight>
             </View>
         )
     }

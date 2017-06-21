@@ -26,7 +26,6 @@ import SampleInfo from './components/SampleInfo';
 import Bookmark from './components/Bookmark';
 
 import AnimeInfoPage from './components/AnimeInfoPage';
-import DetailInfo from './components/DetailInfo';
 import Subtitle from './components/Subtitle';
 
 import BookmarkPage from './components/BookmarkPage';
@@ -74,8 +73,7 @@ export default class App extends Component {
 
                         <Scene key="bookmarkPage" component={BookmarkPage} title="즐겨찾기" />
 
-                        <Scene key="animeInfoPage" component={AnimeInfoPage} title="애니정보" />
-
+                        <Scene key="animeInfoPage" component={AnimeInfoPage} title="상세정보" />
                     </Scene>
                 </RouterWithRedux>
             </Provider>

@@ -63,23 +63,21 @@ hideTabBar, hideNavBar 속성을 이용하여 TaBar와 NavBar를 숨길 수 있�
 export default class App extends Component {
 
     render() {
-        const Scenes = Actions.create(
-            <Scene key="root">
-
-                <Scene key="main" component={MainPage} title="메인" initial={true}>
-                    <Scene key="dailyAnime" component={DailyAnime} />
-                </Scene>
-
-                <Scene key="bookmarkPage" component={BookmarkPage} title="즐겨찾기" />
-
-                <Scene key="animeInfoPage" component={AnimeInfoPage} title="애니정보" />
-
-            </Scene>
-        )
-
         return (
             <Provider store={store}>
-                <RouterWithRedux scenes={Scenes} />
+                <RouterWithRedux>
+                    <Scene key="root">
+
+                        <Scene key="main" component={MainPage} title="메인" initial={true}>
+                            <Scene key="dailyAnime" component={DailyAnime} />
+                        </Scene>
+
+                        <Scene key="bookmarkPage" component={BookmarkPage} title="즐겨찾기" />
+
+                        <Scene key="animeInfoPage" component={AnimeInfoPage} title="애니정보" />
+
+                    </Scene>
+                </RouterWithRedux>
             </Provider>
         )
     }

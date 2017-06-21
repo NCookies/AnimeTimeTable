@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import
 {   View,
     Text,
@@ -6,18 +6,22 @@ import
     NetInfo,
     ListView
 } from 'react-native';
+import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
 import SampleInfo from './SampleInfo';
 import Bookmark from './Bookmark'
 
 
-export default class DailyAnime extends Component {
+class DailyAnime extends Component {
+
+    static propTypes = {
+        routes: PropTypes.object
+    };
 
     constructor(props) {
         super(props);
 
-        const ds =
         this.state = {
             dataSource: new ListView.DataSource({
                 rowHasChanged: (r1, r2) => r1 !== r2
@@ -101,3 +105,5 @@ export default class DailyAnime extends Component {
         return await NetInfo.isConnected.fetch();
     }
 }
+
+export default connect(({routes}) => ({routes}))(DailyAnime);

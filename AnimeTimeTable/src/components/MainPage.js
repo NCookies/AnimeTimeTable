@@ -4,7 +4,6 @@ import
     View,
     Text
 } from 'react-native';
-
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
@@ -31,17 +30,15 @@ class MainPage extends Component {
         const {routes} = this.context;
 
         return (
-            <View>
-                <ScrollableTabView>
-                    <DailyAnime tabLabel="월" dayOfWeek={0}/>
-                    <DailyAnime tabLabel="화" dayOfWeek={1}/>
-                    <DailyAnime tabLabel="수" dayOfWeek={2}/>
-                    <DailyAnime tabLabel="목" dayOfWeek={3}/>
-                    <DailyAnime tabLabel="금" dayOfWeek={4}/>
-                    <DailyAnime tabLabel="토" dayOfWeek={5}/>
-                    <DailyAnime tabLabel="일" dayOfWeek={6}/>
-                </ScrollableTabView>
-            </View>
+            <ScrollableTabView>
+                <DailyAnime tabLabel="월" dayOfWeek={0}/>
+                <DailyAnime tabLabel="화" dayOfWeek={1}/>
+                <DailyAnime tabLabel="수" dayOfWeek={2}/>
+                <DailyAnime tabLabel="목" dayOfWeek={3}/>
+                <DailyAnime tabLabel="금" dayOfWeek={4}/>
+                <DailyAnime tabLabel="토" dayOfWeek={5}/>
+                <DailyAnime tabLabel="일" dayOfWeek={6}/>
+            </ScrollableTabView>
         )
     }
 }

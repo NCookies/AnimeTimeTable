@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
     View,
     Text ,
     StyleSheet,
     TouchableHighlight
 } from 'react-native';
+import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
 import Button from 'react-native-button';
 import Icon from 'react-native-vector-icons/Entypo'
 
-export default class SampleInfo extends Component {
+class SampleInfo extends Component {
 
     constructor(props) {
         super(props);
@@ -24,7 +25,10 @@ export default class SampleInfo extends Component {
         return (
             <View style={styles.listContainer}>
 
-                <TouchableHighlight style={styles.animeInfo} onPress={Actions.animeInfoPage}>
+                <TouchableHighlight
+                    style={styles.animeInfo}
+                    onPress={() => Actions.animeInfoPage(this.props.info)}>
+
                     <View>
                         <Text style={styles.title}>{ info["s"] }</Text>
                         <Text style={styles.detail}>{ time + " | " + info["g"] }</Text>
@@ -33,7 +37,9 @@ export default class SampleInfo extends Component {
 
                 <View style={styles.bookmark}>
                     <Button>
-                        <Icon size={25} name="star-outlined" />
+                        <Icon size={25}
+                            name="star-outlined"
+                            onPress={() => Actions.addBookmark(this.props.info)} />
                     </Button>
                 </View>
 
@@ -75,3 +81,5 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     }
 })
+
+export default connect(({routes}) => ({routes}))(SampleInfo);

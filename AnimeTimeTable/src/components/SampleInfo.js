@@ -3,19 +3,23 @@ import {
     View,
     Text ,
     StyleSheet,
-    TouchableHighlight
+    TouchableHighlight,
+    AsyncStorage
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
 import Button from 'react-native-button';
-import Icon from 'react-native-vector-icons/Entypo'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 class SampleInfo extends Component {
 
     constructor(props) {
         super(props);
 
+        this.state = {
+            isBookmark: false
+        }
     }
 
     render() {
@@ -39,17 +43,60 @@ class SampleInfo extends Component {
                 <View style={styles.bookmark}>
                     <Button>
                         <Icon size={25}
-                            name="star-outlined"
-                            onPress={() => Actions.addBookmark(this.props.info)} />
+                            name={this.state.isBookmark ? "star" : "star-o"}
+                            onPress={() => this.setBookmark(this.props.info)}
+                            ref={ref => this.iconName = ref} />
                     </Button>
                 </View>
 
             </View>
         )
     }
-}
 
-//  onPress={Actions.bookmarkPage}
+    setBookmark(bookmarkObj) {
+        let bookmarkList;
+
+        if (!this.state.isBookmark) {   // 새로운 북마크 추가
+            AsyncStorage.getItem('@BOOKMARK', (err, result) => {
+                if (result !== null) {
+                    bookmarkList = JSON.parse(result);
+                    bookmarkList.push(bookmarkObj);
+
+                    AsyncStorage.setItem('@BOOKMARK', JSON.stringify(bookmarkList), () => {
+                        AsyncStorage.getItem('@BOOKMARK', (err, result) => {
+                            console.log(result);
+                        })
+                    })
+                }
+            });
+        } else {    // 북마크 제거
+            AsyncStorage.getItem('@BOOKMARK', (err, result) => {
+                if (result === null) return err;    // 아무것도 없으면 에러 반환
+
+                bookmarkList = JSON.parse(result);
+                for (let index = 0; index < bookmarkList.length; index++) {
+                    console.log(bookmarkList[index].i);
+                    console.log(bookmarkObj.i);
+                    if (bookmarkList[index].i === bookmarkObj.i) {  // id 값 비교
+                        bookmarkList.splice(index, 1);
+                        break;
+                    }
+                }
+
+                AsyncStorage.setItem('@BOOKMARK', JSON.stringify(bookmarkList), () => {
+                    AsyncStorage.getItem('@BOOKMARK', (err, result) => {
+                        console.log(result);
+                    })
+                })
+            });
+        }
+
+        this.setState({
+            isBookmark: !this.state.isBookmark
+        })
+    }
+}
+// AsyncStorage.mergeItem('BOOKMARK', JSON.stringify(bookmarkObj));
 
 const styles = StyleSheet.create({
     listContainer: {

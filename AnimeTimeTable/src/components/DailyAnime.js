@@ -28,6 +28,15 @@ class DailyAnime extends Component {
             }),
             isFetching: false
         };
+
+        AsyncStorage.getItem('@BOOKMARK', (err, result) => {
+            if (result === null) {
+                AsyncStorage.setItem('@BOOKMARK', JSON.stringify([]));
+            } else {
+                console.log(result);
+            }
+        });
+        // AsyncStorage.removeItem('@BOOKMARK');
     }
 
     async componentDidMount() {
@@ -53,7 +62,7 @@ class DailyAnime extends Component {
             <View>
                 <ListView
                     dataSource={this.state.dataSource}
-                    renderRow={(rowData) => <SampleInfo info={rowData}/>}
+                    renderRow={(rowData) => <SampleInfo info={rowData} />}
                 />
             </View>
         )

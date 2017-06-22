@@ -7,9 +7,13 @@ import
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
+import Icon from 'react-native-vector-icons/FontAwesome'
+
+
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import CustomTabBar from './CustomTabBar';
+import FacebookTabBar from './FacebookTabBar';
 import DailyAnime from './DailyAnime';
 
 
@@ -27,10 +31,17 @@ class MainPage extends Component {
     }
 
     render() {
-        const {routes} = this.context;
+
+        let dt = new Date();
+        let weekday = dt.getDay() - 1;
+        if (weekday < 0) weekday = 6;
 
         return (
-            <ScrollableTabView style={{backgroundColor: '#ECF0F1'}}>
+            <ScrollableTabView
+                style={{backgroundColor: '#ECF0F1'}}
+                initialPage={weekday}
+                tabBarPosition="bottom">
+
                 <DailyAnime tabLabel="월" dayOfWeek={0}/>
                 <DailyAnime tabLabel="화" dayOfWeek={1}/>
                 <DailyAnime tabLabel="수" dayOfWeek={2}/>

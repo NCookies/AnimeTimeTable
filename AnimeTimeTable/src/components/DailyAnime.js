@@ -3,6 +3,7 @@ import
 {   View,
     Text,
     StyleSheet,
+    TouchableHighlight,
     AsyncStorage,
     NetInfo,
     ListView
@@ -39,7 +40,6 @@ class DailyAnime extends Component {
                 console.log(result);
             }
         });
-        // AsyncStorage.removeItem('@BOOKMARK');
 
         this.getBookmarks();
         // 네트워크에 연결되어 있다면 서버로부터 데이터를 새로 받아와 갱신함
@@ -58,9 +58,12 @@ class DailyAnime extends Component {
                 </Text>
             </View>
         )
-
+        // 북마크 영역은 모바일 헤드처럼 꾸미면 될 듯
         const listView = (
             <View>
+                <TouchableHighlight onPress={() => Actions.bookmarkPage(this.state.bookmark)}>
+                    <Text>북마크</Text>
+                </TouchableHighlight>
                 <ListView
                     dataSource={this.state.dataSource}
                     renderRow={(rowData) =>
@@ -110,6 +113,8 @@ class DailyAnime extends Component {
                 dataSource: this.state.dataSource.cloneWithRows(json),
                 isFetching: false
             })
+            console.log(this.state.dataSource)
+            // console.log(this.state.dataSource.cloneWithRows(json))
             AsyncStorage.setItem('@' + dayOfWeek[this.props.dayOfWeek] + 'Anime:key', json)
             // console.log(this.state.dataSource);
         })

@@ -23,7 +23,10 @@ class SampleInfo extends Component {
     }
 
     componentDidMount() {
-        if (this.props.bookmark !== null) {    // 즐겨찾기가 되어 있으면 UI에 반영
+        console.log(this.props.bookmark)
+
+        if (this.props.bookmark !== null ||
+            typeof this.props.bookmark !== 'undefined') {    // 즐겨찾기가 되어 있으면 UI에 반영
             for (let index = 0; index < this.props.bookmark.length; index++) {
                 if (this.props.bookmark[index]["i"] === this.props.info["i"]) {
                     this.setState({
@@ -58,7 +61,7 @@ class SampleInfo extends Component {
                         <Icon size={25}
                             name={this.state.isBookmark ? "star" : "star-o"}
                             onPress={() => this.setBookmark(this.props.info)}
-                            ref={ref => this.iconName = ref} />
+                        />
                     </Button>
                 </View>
 

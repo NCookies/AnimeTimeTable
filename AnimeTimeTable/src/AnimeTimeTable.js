@@ -23,7 +23,6 @@ import MainPage from './components/MainPage';
 
 import DailyAnime from './components/DailyAnime';
 import SampleInfo from './components/SampleInfo';
-import Bookmark from './components/Bookmark';
 
 import AnimeInfoPage from './components/AnimeInfoPage';
 import Subtitle from './components/Subtitle';

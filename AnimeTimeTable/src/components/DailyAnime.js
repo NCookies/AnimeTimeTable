@@ -11,7 +11,6 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
 import SampleInfo from './SampleInfo';
-import Bookmark from './Bookmark'
 
 
 class DailyAnime extends Component {

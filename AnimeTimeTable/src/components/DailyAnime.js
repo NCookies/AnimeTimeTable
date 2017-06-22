@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import
 {   View,
     Text,
+    StyleSheet,
     AsyncStorage,
     NetInfo,
     ListView
@@ -26,9 +27,12 @@ class DailyAnime extends Component {
             dataSource: new ListView.DataSource({
                 rowHasChanged: (r1, r2) => r1 !== r2
             }),
-            isFetching: false
+            isFetching: false,
+            bookmark: {}
         };
+    }
 
+    componentDidMount() {
         AsyncStorage.getItem('@BOOKMARK', (err, result) => {
             if (result === null) {
                 AsyncStorage.setItem('@BOOKMARK', JSON.stringify([]));
@@ -37,13 +41,11 @@ class DailyAnime extends Component {
             }
         });
         // AsyncStorage.removeItem('@BOOKMARK');
-    }
 
-    async componentDidMount() {
-
+        this.getBookmarks();
         // 네트워크에 연결되어 있다면 서버로부터 데이터를 새로 받아와 갱신함
         // if (await this.checkNetworkConnecting()) {
-            await this.getAnimeFromApi();
+            this.getAnimeFromApi();
         // } else {    // 연결되어 있지 않다면 기존의 DB 데이터를 사용함
 
         // }
@@ -51,9 +53,9 @@ class DailyAnime extends Component {
 
     render() {
         const loading = (
-            <View>
-                <Text>
-                    Loading...
+            <View style={styles.loadingContainer}>
+                <Text style={styles.loadingText}>
+                    로딩 중...
                 </Text>
             </View>
         )
@@ -62,7 +64,11 @@ class DailyAnime extends Component {
             <View>
                 <ListView
                     dataSource={this.state.dataSource}
-                    renderRow={(rowData) => <SampleInfo info={rowData} />}
+                    renderRow={(rowData) =>
+                                    <SampleInfo info={rowData}
+                                                bookmark={ this.state.bookmark }
+                                    />
+                            }
                 />
             </View>
         )
@@ -106,13 +112,36 @@ class DailyAnime extends Component {
                 isFetching: false
             })
             AsyncStorage.setItem('@' + dayOfWeek[this.props.dayOfWeek] + 'Anime:key', json)
-            console.log(this.state.dataSource);
+            // console.log(this.state.dataSource);
         })
     }
 
     async checkNetworkConnecting() {
         return await NetInfo.isConnected.fetch();
     }
+
+    getBookmarks() {
+        AsyncStorage.getItem('@BOOKMARK', (err, result) => {
+            this.setState({
+                ...this.state,
+                bookmark: JSON.parse(result)
+            })
+        });
+    }
 }
+
+const styles = StyleSheet.create({
+    loadingContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100%'
+    },
+
+    loadingText: {
+        textAlign: 'center',
+        fontSize: 30,
+        color: 'black'
+    }
+})
 
 export default connect(({routes}) => ({routes}))(DailyAnime);

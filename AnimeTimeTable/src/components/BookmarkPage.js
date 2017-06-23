@@ -1,11 +1,13 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import {
     View,
     Text,
-    ListView
+    ListView,
+    AsyncStorage
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import PropTypes from 'prop-types';
 
 import Button from 'react-native-button';
 
@@ -24,34 +26,43 @@ class BookmarkPage extends Component {
         this.state = {
             dataSource: new ListView.DataSource({
                 rowHasChanged: (r1, r2) => r1 !== r2
-            })
+            }),
+            bookmark: {}
         };
     }
 
     componentDidMount() {
-        this.setState({
-            ...this.state,
-            dataSource: this.state.dataSource.cloneWithRows(this.props.routes.scene.data)
-        })
+        this.getBookmarks();
+        // this.setState({
+        //     ...this.state,
+        //     dataSource: this.state.dataSource.cloneWithRows(this.props.routes.scene.data)
+        // })
     }
 
     render() {
-        // console.log(typeof this.props.routes.scene.data)
+        console.log(this.state.bookmark)
 
-        console.log(this.state.dataSource)
         return (
             <View>
-                <View style={{'height': 60}}></View>
+                <View style={{'height': 55}}></View>
                 <ListView
                     dataSource={this.state.dataSource}
                     renderRow={(rowData) =>
-                                    <SampleInfo info={rowData}
-                                                bookmark={this.props.routes.scene.data}
-                                    />
+                                    <SampleInfo info={rowData} />
                             }
                 />
             </View>
         )
+    }
+
+    getBookmarks() {
+        AsyncStorage.getItem('@BOOKMARK', (err, result) => {
+            this.setState({
+                ...this.state,
+                dataSource: this.state.dataSource.cloneWithRows(JSON.parse(result)),
+                bookmark: JSON.parse(result)
+            })
+        });
     }
 }
 

@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import
 {   View,
     Text,
@@ -10,6 +10,9 @@ import
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import PropTypes from 'prop-types';
+
+import Button from 'apsl-react-native-button'
 
 import SampleInfo from './SampleInfo';
 
@@ -30,9 +33,13 @@ class DailyAnime extends Component {
             isFetching: false,
             bookmark: {}
         };
+
+        console.log('constructor')
     }
 
     componentDidMount() {
+        this.getBookmarks();
+
         AsyncStorage.getItem('@BOOKMARK', (err, result) => {
             if (result === null) {
                 AsyncStorage.setItem('@BOOKMARK', JSON.stringify([]));
@@ -41,7 +48,8 @@ class DailyAnime extends Component {
             }
         });
 
-        this.getBookmarks();
+        console.log('componentDidMount')
+
         // 네트워크에 연결되어 있다면 서버로부터 데이터를 새로 받아와 갱신함
         // if (await this.checkNetworkConnecting()) {
             this.getAnimeFromApi();
@@ -51,6 +59,10 @@ class DailyAnime extends Component {
     }
 
     render() {
+        console.log('render');
+        console.log(this.state.bookmark);
+        // 북마크 페이지에서 즐겨찾기를 해제하면 변경 사항이 반영되지 않음
+
         const loading = (
             <View style={styles.loadingContainer}>
                 <Text style={styles.loadingText}>
@@ -61,15 +73,15 @@ class DailyAnime extends Component {
         // 북마크 영역은 모바일 헤드처럼 꾸미면 될 듯
         const listView = (
             <View>
-                <TouchableHighlight onPress={() => Actions.bookmarkPage(this.state.bookmark)}>
-                    <Text>북마크</Text>
-                </TouchableHighlight>
+                <View style={styles.bookmarkPageButtonContainer}>
+                    <Button onPress={Actions.bookmarkPage} title="bookmark" style={styles.bookmarkPageButton}>
+                        <Text style={styles.buttonText}>북마크</Text>
+                    </Button>
+                </View>
                 <ListView
                     dataSource={this.state.dataSource}
                     renderRow={(rowData) =>
-                                    <SampleInfo info={rowData}
-                                                bookmark={ this.state.bookmark }
-                                    />
+                                    <SampleInfo info={rowData} />
                             }
                 />
             </View>
@@ -82,19 +94,19 @@ class DailyAnime extends Component {
         )
     }
 
-    async getAnimeFromDB() {
-        try {
-            const animeData = await AsyncStorage.getItem('@'
-            + dayOfWeek[weekday]
-            + 'Anime:key');
-
-            if (animeData !== null) {
-                return animeData
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    // async getAnimeFromDB() {
+    //     try {
+    //         const animeData = await AsyncStorage.getItem('@'
+    //         + dayOfWeek[weekday]
+    //         + 'Anime:key');
+    //
+    //         if (animeData !== null) {
+    //             return animeData
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     getAnimeFromApi() {
         let animeData;
@@ -113,10 +125,7 @@ class DailyAnime extends Component {
                 dataSource: this.state.dataSource.cloneWithRows(json),
                 isFetching: false
             })
-            console.log(this.state.dataSource)
-            // console.log(this.state.dataSource.cloneWithRows(json))
             AsyncStorage.setItem('@' + dayOfWeek[this.props.dayOfWeek] + 'Anime:key', json)
-            // console.log(this.state.dataSource);
         })
     }
 
@@ -145,6 +154,25 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 30,
         color: 'black'
+    },
+
+    bookmarkPageButtonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center'
+    },
+
+    bookmarkPageButton: {
+        backgroundColor: '#2ECC71',
+        width: 100,
+        borderWidth: 0,
+
+        margin: 10
+    },
+
+    buttonText: {
+        color: 'white',
+        fontSize: 20
     }
 })
 

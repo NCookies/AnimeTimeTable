@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import {
     View,
     Text ,
@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import PropTypes from 'prop-types';
 
 import Button from 'react-native-button';
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -18,24 +19,14 @@ class SampleInfo extends Component {
         super(props);
 
         this.state = {
-            isBookmark: false
+            isBookmark: false,
+            bookmark: []
         }
     }
 
     componentDidMount() {
-        console.log(this.props.bookmark)
 
-        if (this.props.bookmark !== null ||
-            typeof this.props.bookmark !== 'undefined') {    // 즐겨찾기가 되어 있으면 UI에 반영
-            for (let index = 0; index < this.props.bookmark.length; index++) {
-                if (this.props.bookmark[index]["i"] === this.props.info["i"]) {
-                    this.setState({
-                        ...this.state,
-                        isBookmark: true
-                    })
-                }
-            }
-        }
+        this.setStar();
     }
 
     render() {
@@ -110,6 +101,23 @@ class SampleInfo extends Component {
         this.setState({
             isBookmark: !this.state.isBookmark
         })
+    }
+
+    setStar() {
+        AsyncStorage.getItem('@BOOKMARK', (err, result) => {
+            bookmark = JSON.parse(result);
+            if (bookmark !== null ||
+                typeof bookmark !== 'undefined') {    // 즐겨찾기가 되어 있으면 UI에 반영
+                for (let index = 0; index < bookmark.length; index++) {
+                    if (bookmark[index]["i"] === this.props.info["i"]) {
+                        this.setState({
+                            ...this.state,
+                            isBookmark: true
+                        })
+                    }
+                }
+            }
+        });
     }
 }
 // AsyncStorage.mergeItem('BOOKMARK', JSON.stringify(bookmarkObj));

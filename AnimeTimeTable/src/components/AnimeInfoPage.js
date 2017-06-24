@@ -16,6 +16,7 @@ import Subtitle from './Subtitle';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FaceIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import LinkIcon from 'react-native-vector-icons/Entypo';
 
 import parseDate from '../lib/parseDate';
 import parseTime from '../lib/parseTime';
@@ -169,6 +170,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         height: 200
+    },
+
+    title: {
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        alignItems: 'center'
     },
 
     titleText: {

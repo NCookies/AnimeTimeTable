@@ -6,7 +6,9 @@ import {
     StyleSheet
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+
 import Button from 'apsl-react-native-button';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import parseDate from '../lib/parseDate';
 
@@ -40,6 +42,7 @@ export default class Subtitle extends Component {
                 <Button isLoading={this.props.isFetching}
                         onPress={() => Linking.openURL('http://' + info["a"]) }
                         style={styles.subtitle} >
+                        <Icon size={20} name="subtitles" />
                         <Text style={styles.times}>{ times }</Text>
                         <View>
                             <Text style={styles.info}>{ info["n"] }</Text>

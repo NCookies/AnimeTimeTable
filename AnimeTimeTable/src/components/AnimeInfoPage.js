@@ -34,7 +34,8 @@ class AnimeInfoPage extends Component {
             dataSource: new ListView.DataSource({
                 rowHasChanged: (r1, r2) => r1 !== r2
             }),
-            isFetching: false
+            isFetching: false,
+            isEmpty: false
         };
     }
 
@@ -59,10 +60,10 @@ class AnimeInfoPage extends Component {
             endDate   = parseDate(this.props.routes.scene.ed);
         }
 
-        const loading = (
+        const empty = (
             <View style={styles.loadingContainer}>
                 <Text style={styles.loadingText}>
-                    로딩 중...
+                    자막이 없습니다
                 </Text>
             </View>
         )
@@ -123,7 +124,7 @@ class AnimeInfoPage extends Component {
                     </View>
                 </View>
 
-                { subtitle }
+                { this.state.isEmpty ? empty : subtitle }
             </ScrollView>
         )
     }
@@ -138,6 +139,12 @@ class AnimeInfoPage extends Component {
         fetch('http://www.anissia.net/anitime/cap?i=' + this.props.routes.scene.i)
         .then((res) => res.json())
         .then((json) => {
+            if (json.length <= 0) {
+                this.setState({
+                    isEmpty: true
+                })
+            }
+
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(json),
                 isFetching: false

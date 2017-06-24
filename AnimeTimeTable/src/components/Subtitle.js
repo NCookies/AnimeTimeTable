@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
-    Linking
+    Linking,
+    StyleSheet
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Button from 'apsl-react-native-button';
@@ -33,20 +34,47 @@ export default class Subtitle extends Component {
             // 자막의 화수가 문자열로 되어있을 때(BD, EX, PIC, OVA, OAD 등)
             tiems = info["s"]
         }
-        
+
         return (
-            <View>
+            <View style={styles.subtitleContainer}>
                 <Button isLoading={this.props.isFetching}
-                        onPress={() => Linking.openURL('http://' + info["a"]) } >
-                        <Text>{ times }</Text>
+                        onPress={() => Linking.openURL('http://' + info["a"]) }
+                        style={styles.subtitle} >
+                        <Text style={styles.times}>{ times }</Text>
                         <View>
-                            <Text>{ info["n"] }</Text>
-                            <Text>{ parseDate(info["d"]) }</Text>
+                            <Text style={styles.info}>{ info["n"] }</Text>
+                            <Text style={styles.info}>{ parseDate(info["d"]) }</Text>
                         </View>
                 </Button>
             </View>
         )
     }
-
-
 }
+
+const styles = StyleSheet.create({
+
+    subtitleContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: 10
+    },
+
+    subtitle: {
+        width: '90%',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+
+        backgroundColor: '#FC6E51',
+        borderWidth: 0
+    },
+
+    times: {
+        color: 'white',
+        fontSize: 20
+    },
+
+    info: {
+        color: 'white'
+    }
+})

@@ -83,6 +83,7 @@ class AnimeInfoPage extends Component {
         return (
             <ScrollView style={styles.container}>
 
+                <Text style={styles.descText}>제목을 누르면 공식 사이트로 이동됩니다</Text>
                 <TouchableHighlight
                     style={styles.mainTitle}
                     onPress={() => Linking.openURL(uri)}>
@@ -90,6 +91,7 @@ class AnimeInfoPage extends Component {
                         { this.props.routes.scene.s }
                     </Text>
                 </TouchableHighlight>
+
 
 
                 <View style={styles.rowInfo}>
@@ -125,6 +127,7 @@ class AnimeInfoPage extends Component {
                     </View>
                 </View>
 
+                <Text style={styles.descText}>자막 블로그 링크입니다</Text>
                 { this.state.isEmpty ? empty : subtitle }
             </ScrollView>
         )
@@ -158,7 +161,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
         flex: 1,
-        paddingTop: 50
+        paddingTop: 55
     },
 
     mainTitle: {
@@ -204,6 +207,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+
+    descText: {
+        textAlign: 'center'
     }
 });
 

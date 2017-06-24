@@ -4,6 +4,7 @@ import {
     Text,
     StyleSheet,
     ScrollView,
+    ListView,
     TouchableHighlight,
     Linking
 } from 'react-native';
@@ -16,11 +17,30 @@ import Subtitle from './Subtitle';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FaceIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import parseDate from '../lib/parseDate';
+import parseTime from '../lib/parseTime';
+
+
 class AnimeInfoPage extends Component {
 
     static propTypes = {
         routes: PropTypes.object
     };
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            dataSource: new ListView.DataSource({
+                rowHasChanged: (r1, r2) => r1 !== r2
+            }),
+            isFetching: false
+        };
+    }
+
+    componentDidMount() {
+        this.getSubtitle();
+    }
 
     render() {
         let uri;
@@ -32,17 +52,31 @@ class AnimeInfoPage extends Component {
         if (this.props.routes.scene.sceneKey === "animeInfoPage") {
             // FOUCS 액션이 실행되었을 때 체크
             uri = 'http://' + this.props.routes.scene.l;
-            time  = this.props.routes.scene.t.slice(0, 2) + "시 "
-            + this.props.routes.scene.t.slice(2, 4) + "분"
 
-            startDate = this.props.routes.scene.sd.slice(0, 4) + "년 "
-            + this.props.routes.scene.sd.slice(4, 6) + "월 "
-            + this.props.routes.scene.sd.slice(6, 8) + "일";
+            time  = parseTime(this.props.routes.scene.t)
 
-            endDate   = this.props.routes.scene.ed.slice(0, 4) + "년 "
-            + this.props.routes.scene.ed.slice(4, 6) + "월 "
-            + this.props.routes.scene.ed.slice(6, 8) + "일";
+            startDate = parseDate(this.props.routes.scene.sd);
+            endDate   = parseDate(this.props.routes.scene.ed);
         }
+
+        const loading = (
+            <View style={styles.loadingContainer}>
+                <Text style={styles.loadingText}>
+                    로딩 중...
+                </Text>
+            </View>
+        )
+
+        const subtitle = (
+            <View>
+                <ListView dataSource={this.state.dataSource}
+                          renderRow={(rowData) =>
+                                        <Subtitle info={rowData}
+                                                  isFetching={this.state.isFetching }/>
+                                    }
+                />
+            </View>
+        )
 
         return (
             <ScrollView style={styles.container}>
@@ -89,8 +123,26 @@ class AnimeInfoPage extends Component {
                     </View>
                 </View>
 
+                { subtitle }
             </ScrollView>
         )
+    }
+
+    getSubtitle() {
+        let subtitleData;
+
+        this.setState({
+            isFetching: true
+        })
+
+        fetch('http://www.anissia.net/anitime/cap?i=' + this.props.routes.scene.i)
+        .then((res) => res.json())
+        .then((json) => {
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(json),
+                isFetching: false
+            })
+        })
     }
 }
 
